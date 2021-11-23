@@ -4,24 +4,37 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+Navigate to `http://localhost:4200/` for the player app, and `http://localhost:4200/host` for the host app.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Running the multi-user app
 
-## Build
+In order to run the full working solution, you have to do the following.
+Only in this version, will the user inputs in the player app be registered in the host app.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+First build the app using:
 
-## Running unit tests
+`ng build`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Then serve the builded app using:
 
-## Running end-to-end tests
+`npm run start`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Then you can navigate to `http://localhost:3000/` for the player app, and `http://localhost:3000/host` for the host app.
 
-## Further help
+## Setup participants
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+In order to setup the participants, simply go to `utils/player-service.ts` and fill in the details using the `Player` interface.
+- **DisplayName**: "Gamer name" - the name on the login screen
+- **id**: "Real name" - mostly used behind the scenes, but also on the score tracker in the host app
+- **buzzerSound**: Name of the sound-file for the players buzzer
+- **points**: A variable to keep track of a players points. Should be 0 from the start.
+
+After the participants has been setup go to `assets/buzzers` and add the buzzer sound files, and you should be good to go.
+
+## Styling the app
+
+You will find global styles in `styles.scss`, player app specific styles in `player.component.scss` and host app specific styles in `host.component.scss`.
+
+Lastly, there's the banner in `assets/banner.png`, which can be updated as well.
