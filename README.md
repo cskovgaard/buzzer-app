@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
 
+## Getting started
+
+Run `npm install` to install app dependencies. This requires [Node.js](https://nodejs.org/en/) to be installed.
+
 ## Development server
 
 Run `ng serve` for a dev server. The app will automatically reload if you change any of the source files.
