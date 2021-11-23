@@ -1,3 +1,5 @@
+@import '../../assets/styles/variables';
+
 .player-component {
   display: flex;
   flex-direction: column;
@@ -35,20 +37,20 @@
       font-size: 20px;
       padding: 20px 20px;
       border-radius: 15px;
-      color: rgba(255,255,255,0.6);
+      color: rgba($primary-text-color, 0.6);
       transition: box-shadow 1s, color 1s;
     }
     
     input[name='username']:checked:after{ 
       box-shadow: 2px 2px 14px rgba(0,0,0,.4);
-      color: rgba(255,255,255,1);
+      color: rgba($primary-text-color, 1);
     }
   
     .player-info {
-      color: rgba(255,255,255, 0.7);
+      color: rgba($primary-text-color, 0.7);
   
       span {
-        color: rgba(255,255,255, 1);
+        color: rgba($primary-text-color, 1);
         font-weight: 600;
       }
     }

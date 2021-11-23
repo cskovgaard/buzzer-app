@@ -37,8 +37,12 @@ In order to setup the participants, simply go to `utils/player-service.ts` and f
 
 After the participants has been setup go to `assets/buzzers` and add the buzzer sound files, and you should be good to go.
 
-## Styling the app
+## Theming the app
 
-You will find global styles in `styles.scss`, player app specific styles in `player.component.scss` and host app specific styles in `host.component.scss`.
+You will find color variables in `assets/styles/_variables.scss`.\
+These can be updated to change the theme of the app.
+
+In addition, you will find global styles in `assets/styles/global-styles.scss`,\
+player app specific styles in `player.component.scss` and host app specific styles in `host.component.scss`.
 
 Lastly, there's the banner in `assets/banner.png`, which can be updated as well.
