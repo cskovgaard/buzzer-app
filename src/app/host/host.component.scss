@@ -1,0 +1,71 @@
+.host-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin-top: 24px;
+
+    .player-buzz {
+      margin: 4px;
+    }
+
+    .points-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 12px;
+      margin-bottom: 40px;
+
+      .player-container {
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        margin: 8px;
+        padding: 2px 6px 6px;
+        width: 250px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+
+        .points-tracker {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          .setter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            cursor: pointer;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #222;
+            border-radius: 10px;
+            width: 60px;
+            height: 40px;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.8);
+            }
+
+            &:active {
+              transform: translateY(2px);
+            }
+          }
+
+          .points {
+            font-size: 2em;
+          }
+        }
+      }
+    }
+  }
+}

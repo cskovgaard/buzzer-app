@@ -1,0 +1,27 @@
+<div class="host-component">
+  <header>
+    <img src="/assets/banner.png" />
+  </header>
+
+  <div class="container">
+    
+    <h2>{{ noOfActivePlayers }} players has joined</h2>
+    <div *ngFor="let buzz of activeBuzzes" class="player-buzz">
+      {{ buzz.displayName }}
+    </div>
+    <button (click)="onClearBuzzes()">Clear buzzes</button>
+
+    <div class="points-container">
+      <div *ngFor="let player of players" class="player-container">
+        {{ player.id }}
+        <div class="points-tracker">
+          <div class="setter" (click)="onSetPoints(player, -50)">-50</div>
+          <div class="points">{{ player.points }}</div>
+          <div class="setter" (click)="onSetPoints(player, 50)">+50</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

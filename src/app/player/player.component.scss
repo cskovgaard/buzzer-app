@@ -1,0 +1,62 @@
+.player-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+
+  .container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px;
+    margin-top: 24px;
+
+    input[name='username'] {
+      width: 200px;
+      margin: 10px;
+      outline: none;
+      appearance: none;
+  
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -o-appearance: none;
+      -ms-appearance: none;
+    }
+    
+    input[name='username']:after{ 
+      content: attr(data-icon);
+  
+      display: inline-block;
+      font-family: 'FontAwesome';
+      text-align: center;
+      width: 150px;
+      font-size: 20px;
+      padding: 20px 20px;
+      border-radius: 15px;
+      color: rgba(255,255,255,0.6);
+      transition: box-shadow 1s, color 1s;
+    }
+    
+    input[name='username']:checked:after{ 
+      box-shadow: 2px 2px 14px rgba(0,0,0,.4);
+      color: rgba(255,255,255,1);
+    }
+  
+    .player-info {
+      color: rgba(255,255,255, 0.7);
+  
+      span {
+        color: rgba(255,255,255, 1);
+        font-weight: 600;
+      }
+    }
+  
+    .buzzer {
+      height: 10em;
+      font-size: 2em;
+    }
+  }
+}
+

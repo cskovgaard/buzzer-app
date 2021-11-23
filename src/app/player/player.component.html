@@ -1,0 +1,25 @@
+<div class="player-component">
+  <header>
+    <img src="/assets/banner.png" />
+  </header>
+
+  <div *ngIf="!isPlayerJoined" class="container">
+    <div *ngFor="let player of players">
+      <input
+        name="username"
+        type="radio"
+        attr.data-icon="{{ player.displayName }}"
+        (change)="onSetSelectedPlayer(player)"
+      />
+    </div>
+    <button *ngIf="activePlayer.id" type="submit" (click)="onSelect()">
+      Enter
+    </button>
+  </div>
+
+  <div *ngIf="isPlayerJoined" class="container">
+    <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+    <button class="buzzer" (click)="onBuzz()">Buzz</button>
+  </div>
+
+</div>
