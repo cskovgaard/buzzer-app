@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 
-import { Player } from '../../models/player';
+import { Player, PlayerEvents } from '../../models/player';
 import { PlayerService } from '../../utils/player-service';
 
 @Component({
@@ -13,10 +14,27 @@ export class PlayerComponent implements OnInit {
   activePlayer: Player = {};
   isPlayerJoined: boolean = false;
 
-  constructor(private playerService: PlayerService) {}
+  isRoundOptionsActive: boolean = false;
+  areAnswersLocked: boolean = false;
+  activeAnswer: string = '';
+
+  constructor(private playerService: PlayerService, private socket: Socket) {}
 
   ngOnInit() {
     this.players = this.playerService.getPlayers();
+
+    this.socket.on(PlayerEvents.OptionsRoundActive, (isActive: boolean) => {
+      this.isRoundOptionsActive = isActive;
+    });
+
+    this.socket.on(PlayerEvents.ResetActiveAnswers, () => {
+      this.areAnswersLocked = false;
+      this.activeAnswer = '';
+    });
+
+    this.socket.on(PlayerEvents.LockActiveAnswers, () => {
+      this.areAnswersLocked = true;
+    });
   }
 
   onSetSelectedPlayer(player: Player) {
@@ -30,5 +48,10 @@ export class PlayerComponent implements OnInit {
 
   onBuzz() {
     this.playerService.onPlayerBuzzed(this.activePlayer);
+  }
+
+  onAnswer(answer: string) {
+    this.playerService.onPlayerAnswer({ playerId: this.activePlayer.id, playerDisplay: this.activePlayer.displayName, option: answer });
+    this.activeAnswer = answer;
   }
 }

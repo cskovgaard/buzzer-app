@@ -1,15 +1,27 @@
 <div class="host-component">
-  <header>
-    <img src="/assets/banner.png" />
-  </header>
 
   <div class="container">
     
     <h2>{{ noOfActivePlayers }} players has joined</h2>
-    <div *ngFor="let buzz of activeBuzzes" class="player-buzz">
-      {{ buzz.displayName }}
+
+    <div class="player-controller" *ngIf="!isOptionsRoundActive">
+      <div *ngFor="let buzz of activeBuzzes" class="player-line">
+        {{ buzz.displayName }}
+      </div>
+      <button (click)="onClearBuzzes()">Clear buzzes</button>
     </div>
-    <button (click)="onClearBuzzes()">Clear buzzes</button>
+
+    <div class="player-controller" *ngIf="isOptionsRoundActive">
+      <div *ngFor="let answer of activeAnswers" class="player-line">
+        {{ answer.playerDisplay }}: {{ answer.option }}
+      </div>
+
+      <div class="two-button-row">
+        <button class="handle-answers-button" (click)="onLockAnswers()">Lock answers</button>
+        <button class="handle-answers-button" (click)="onResetAnswers()">Reset answers</button>
+      </div>
+
+    </div>
 
     <div class="points-container">
       <div *ngFor="let player of players" class="player-container">
@@ -20,6 +32,11 @@
           <div class="setter" (click)="onSetPoints(player, 50)">+50</div>
         </div>
       </div>
+    </div>
+
+    <div class="two-button-row">
+      <button [disabled]="isOptionsRoundActive" (click)="onSetOptionsRoundActive(true)">START options round</button>
+      <button [disabled]="!isOptionsRoundActive" (click)="onSetOptionsRoundActive(false)">END options round</button>
     </div>
 
   </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from "ngx-socket-io";
 
-import { Player, PlayerEvents } from 'src/models/player';
+import { Answer, Player, PlayerEvents } from 'src/models/player';
 import { PlayerService } from 'src/utils/player-service';
 
 @Component({
@@ -13,6 +13,9 @@ export class HostComponent implements OnInit {
   players: Player[] = [];
   activeBuzzes: Player[] = [];
   noOfActivePlayers = 0;
+
+  isOptionsRoundActive = false;
+  activeAnswers: Answer[] = [];
 
   firstBuzzerSoundPlayed = false;
 
@@ -31,7 +34,16 @@ export class HostComponent implements OnInit {
 
     this.socket.on(PlayerEvents.ActivePlayers, (count: number) => {
       this.noOfActivePlayers = count;
-    })
+    });
+
+    this.socket.on(PlayerEvents.ActiveAnswers, (answers: Answer[]) => {
+
+      const answersReversed = answers.reverse();
+      this.activeAnswers = answersReversed.filter((answer, idx, self) => {
+        return idx === self.findIndex((other) => other.playerId === answer.playerId);
+      });
+
+    });
   }
 
   playBuzzerSound() {
@@ -52,5 +64,18 @@ export class HostComponent implements OnInit {
     if (this.players[playerIdx]) {
       this.players[playerIdx].points = (this.players[playerIdx].points ?? 0) + value;
     }
+  }
+
+  onSetOptionsRoundActive(isActive: boolean) {
+    this.playerService.setOptionsRoundActive(isActive);
+    this.isOptionsRoundActive = isActive;
+  }
+
+  onResetAnswers() {
+    this.playerService.resetActiveAnswers();
+  }
+
+  onLockAnswers() {
+    this.playerService.lockActiveAnswers();
   }
 }

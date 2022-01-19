@@ -7,7 +7,8 @@ import { AppComponent } from './app.component';
 import { HostComponent } from './host/host.component';
 import { PlayerComponent } from './player/player.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+// Keep in sync with "server.js"
+const config: SocketIoConfig = { url: '192.168.86.91:3000', options: {} };
 
 @NgModule({
   declarations: [

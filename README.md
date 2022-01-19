@@ -15,22 +15,30 @@ Navigate to `http://localhost:4200/` for the player app, and `http://localhost:4
 ## Running the multi-user app
 
 In order to run the full working solution, you have to do the following.
-Only in this version, will the user inputs in the player app be registered in the host app.
+Only in this version, will the user inputs in the player app be registered in the host app and vice-versa.
 
-First build the app using:
+This is what you need to do:
+
+1. Make sure every player is on the same WiFi-network
+2. Get the IP of the network (run `ipconfig` in `cmd`, and look for `"IPv4 Address"`)
+3. Update the `_ip` variable in `server.js` and take note of the `_port`
+4. Update the `url` in `app.module.ts` to `"{ip}:{port}"`, where `ip` and `port` should be the values from `server.js`
+5. Save your changes
+
+Then you can build the app using:
 
 `ng build`
 
-Then serve the builded app using:
+And serve the builded app using:
 
 `npm run start`
 
-Then you can navigate to `http://localhost:3000/` for the player app, and `http://localhost:3000/host` for the host app.
+Then you can navigate to `http://{ip}:{port}` for the player app, and `http://{ip}:{port}/host` for the host app.
 
 ## Setup participants
 
 In order to setup the participants, simply go to `utils/player-service.ts` and fill in the details using the `Player` interface.
-- **DisplayName**: "Gamer name" - the name on the login screen
+- **displayName**: "Gamer name" - the name on the login screen
 - **id**: "Real name" - mostly used behind the scenes, but also on the score tracker in the host app
 - **buzzerSound**: Name of the sound-file for the players buzzer
 - **points**: A variable to keep track of a players points. Should be 0 from the start.
@@ -45,4 +53,4 @@ These can be updated to change the theme of the app.
 In addition, you will find global styles in `assets/styles/global-styles.scss`,\
 player app specific styles in `player.component.scss` and host app specific styles in `host.component.scss`.
 
-Lastly, there's the banner in `assets/banner.png`, which can be updated as well.
+Lastly, there's the header in `assets/header.png`, which can be updated as well.

@@ -1,7 +1,5 @@
 <div class="player-component">
-  <header>
-    <img src="/assets/banner.png" />
-  </header>
+  <div class="header"></div>
 
   <div *ngIf="!isPlayerJoined" class="container">
     <div *ngFor="let player of players">
@@ -12,14 +10,37 @@
         (change)="onSetSelectedPlayer(player)"
       />
     </div>
-    <button *ngIf="activePlayer.id" type="submit" (click)="onSelect()">
+    <button *ngIf="activePlayer.id" type="submit" (click)="onSelect()" class="enter">
       Enter
     </button>
   </div>
 
-  <div *ngIf="isPlayerJoined" class="container">
+  <div *ngIf="isPlayerJoined && !isRoundOptionsActive" class="container">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
     <button class="buzzer" (click)="onBuzz()">Buzz</button>
+  </div>
+
+  <div *ngIf="isPlayerJoined && isRoundOptionsActive" class="container">
+    <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+    <div class="options">
+      <div 
+        (click)="!areAnswersLocked && onAnswer('JA')"
+        class="option-button"
+        [class.selected]="activeAnswer === 'JA'"
+        [class.not-selected]="activeAnswer === 'NEJ' || areAnswersLocked"
+      >
+        Ja
+      </div>
+        
+      <div
+        (click)="!areAnswersLocked && onAnswer('NEJ')"
+        class="option-button"
+        [class.selected]="activeAnswer === 'NEJ'"
+        [class.not-selected]="activeAnswer === 'JA' || areAnswersLocked"
+      >
+        Nej
+      </div>
+    </div>
   </div>
 
 </div>
