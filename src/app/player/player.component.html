@@ -24,21 +24,21 @@
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
     <div class="options">
       <div 
-        (click)="!areAnswersLocked && onAnswer('JA')"
+        (click)="!areAnswersLocked && onAnswer(optionA)"
         class="option-button"
-        [class.selected]="activeAnswer === 'JA'"
-        [class.not-selected]="activeAnswer === 'NEJ' || areAnswersLocked"
+        [class.selected]="activeAnswer === optionA"
+        [class.not-selected]="activeAnswer === optionB || areAnswersLocked"
       >
-        Ja
+        {{optionA}}
       </div>
         
       <div
-        (click)="!areAnswersLocked && onAnswer('NEJ')"
+        (click)="!areAnswersLocked && onAnswer(optionB)"
         class="option-button"
-        [class.selected]="activeAnswer === 'NEJ'"
-        [class.not-selected]="activeAnswer === 'JA' || areAnswersLocked"
+        [class.selected]="activeAnswer === optionB"
+        [class.not-selected]="activeAnswer === optionA || areAnswersLocked"
       >
-        Nej
+      {{optionB}}
       </div>
     </div>
   </div>
