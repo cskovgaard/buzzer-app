@@ -22,23 +22,16 @@
 
   <div *ngIf="isPlayerJoined && isRoundOptionsActive" class="container">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+
     <div class="options">
-      <div 
-        (click)="!areAnswersLocked && onAnswer(optionA)"
-        class="option-button"
-        [class.selected]="activeAnswer === optionA"
-        [class.not-selected]="activeAnswer === optionB || areAnswersLocked"
-      >
-        {{optionA}}
-      </div>
-        
       <div
-        (click)="!areAnswersLocked && onAnswer(optionB)"
+        *ngFor="let option of options"
+        (click)="!areAnswersLocked && onAnswer(option)"
         class="option-button"
-        [class.selected]="activeAnswer === optionB"
-        [class.not-selected]="activeAnswer === optionA || areAnswersLocked"
+        [class.selected]="activeAnswer === option"
+        [class.not-selected]="activeAnswer !== option || areAnswersLocked"
       >
-      {{optionB}}
+        {{option}}
       </div>
     </div>
   </div>

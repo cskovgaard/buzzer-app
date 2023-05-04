@@ -18,8 +18,7 @@ export class PlayerComponent implements OnInit {
   areAnswersLocked: boolean = false;
   activeAnswer: string = '';
 
-  optionA: string = 'HIGHER';
-  optionB: string = 'LOWER';
+  options: string[] = ['A', 'B', 'C', 'D'];
 
   constructor(private playerService: PlayerService, private socket: Socket) {}
 
