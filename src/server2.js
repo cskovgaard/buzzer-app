@@ -7,29 +7,18 @@ const cors = require('cors');
 const server = http.createServer(app);
 
 const { Server } = require('socket.io');
-const io = new Server(server);
-
-const corsOpts = {
-  origin: '*',
-
-  methods: [
-    'GET',
-    'POST',
-  ],
-
-  allowedHeaders: [
-    'Content-Type',
-  ],
-};
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
-app.use(cors(corsOpts));
 
 const data = {
   users: new Set(),
