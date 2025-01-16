@@ -7,13 +7,24 @@ const cors = require('cors');
 const server = http.createServer(app);
 
 const { Server } = require('socket.io');
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "https://www.bergur.dk",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
 app.use(cors({
   origin: 'https://www.bergur.dk',
   methods: ['GET', 'POST'],
   credentials: true,
 }));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 const data = {
   users: new Set(),
