@@ -14,19 +14,6 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors({
-  origin: 'https://www.bergur.dk',
-  methods: ['GET', 'POST'],
-}));
-
-app.use((req, res, next) => {
-  const allowedOrigin = 'https://www.bergur.dk';
-  res.header('Access-Control-Allow-Origin', allowedOrigin);
-  res.header('Access-Control-Allow-Methods', 'GET,POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-  next();
-});
-
 const data = {
   users: new Set(),
   buzzes: new Set(),
