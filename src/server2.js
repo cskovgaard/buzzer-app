@@ -22,7 +22,6 @@ app.use(cors({
 app.use((req, res, next) => {
   const allowedOrigin = 'https://www.bergur.dk';
   res.header('Access-Control-Allow-Origin', allowedOrigin);
-  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET,POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
   next();
