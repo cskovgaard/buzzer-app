@@ -1,4 +1,3 @@
-const _app_folder = 'dist/buzzer-app/';
 const _port = 3000;
 
 const express = require("express");
@@ -9,12 +8,6 @@ const server = http.createServer(app);
 
 const { Server } = require('socket.io');
 const io = new Server(server);
-
-app.get('*.*', express.static(_app_folder));
-
-app.all('*', function (_, res) {
-  res.status(200).sendFile(`/`, {root: _app_folder});
-});
 
 app.use(cors({
   origin: 'https://www.bergur.dk',
