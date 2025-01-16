@@ -11,18 +11,20 @@ const io = new Server(server, {
   cors: {
     origin: "https://www.bergur.dk",
     methods: ["GET", "POST"],
-    credentials: true,
   },
 });
 
 app.use(cors({
   origin: 'https://www.bergur.dk',
   methods: ['GET', 'POST'],
-  credentials: true,
 }));
 
 app.use((req, res, next) => {
+  const allowedOrigin = 'https://www.bergur.dk';
+  res.header('Access-Control-Allow-Origin', allowedOrigin);
   res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
   next();
 });
 
