@@ -7,12 +7,12 @@ const cors = require('cors');
 const server = http.createServer(app);
 
 const { Server } = require('socket.io');
-const io = new Server(server, {
-  cors: {
-    origin: "https://www.bergur.dk",
-    methods: ["GET", "POST"],
-  },
-});
+const io = new Server(server);
+
+app.use(cors({
+  origin: 'https://www.bergur.dk',
+  methods: ['GET', 'POST'],
+}));
 
 const data = {
   users: new Set(),
