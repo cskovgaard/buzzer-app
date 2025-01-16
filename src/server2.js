@@ -12,7 +12,7 @@ const io = new Server(server);
 
 app.get('*.*', express.static(_app_folder));
 
-app.all('*', function (_, res) {ip
+app.all('*', function (_, res) {
   res.status(200).sendFile(`/`, {root: _app_folder});
 });
 
