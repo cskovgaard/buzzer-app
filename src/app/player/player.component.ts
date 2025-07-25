@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
-import { Player, PlayerEvents } from '../../models/player';
+import { ActiveRound, Player, PlayerEvents } from '../../models/player';
 import { PlayerService } from '../../utils/player-service';
 
 @Component({
@@ -11,27 +11,33 @@ import { PlayerService } from '../../utils/player-service';
 })
 export class PlayerComponent implements OnInit {
   players: Player[] = [];
-  activePlayer: Player = {};
+  activePlayer: Player = { id: "" };
   isPlayerJoined: boolean = false;
 
-  isRoundOptionsActive: boolean = false;
+  activeRound: ActiveRound;
+
   areAnswersLocked: boolean = false;
   activeAnswer: string = '';
 
-  options: string[] = ['A', 'B', 'C', 'D'];
+  options: string[] = [];
 
-  constructor(private playerService: PlayerService, private socket: Socket) {}
+  constructor(private playerService: PlayerService, private socket: Socket) {
+    this.activeRound = 'regular';
+  }
 
   ngOnInit() {
     this.players = this.playerService.getPlayers();
 
-    this.socket.on(PlayerEvents.OptionsRoundActive, (isActive: boolean) => {
-      this.isRoundOptionsActive = isActive;
-    });
+    this.socket.on(PlayerEvents.SetActiveRound, (data: { round: ActiveRound, options: string[] }) => {
+      this.activeRound = data.round;
+      this.options = data.options;
+      this.areAnswersLocked = false;
+      this.activeAnswer = '';
+    })
 
     this.socket.on(PlayerEvents.ResetActiveAnswers, () => {
       this.areAnswersLocked = false;
-      this.activeAnswer = '';
+      this.activeAnswer = '';    
     });
 
     this.socket.on(PlayerEvents.LockActiveAnswers, () => {
@@ -52,8 +58,15 @@ export class PlayerComponent implements OnInit {
     this.playerService.onPlayerBuzzed(this.activePlayer);
   }
 
-  onAnswer(answer: string) {
+  onIncreaseCounter() {
+    const previousCount = parseInt(this.activeAnswer) || 0;
+    const newCount = (previousCount + 1).toString();
+    this.playerService.onPlayerAnswer({ playerId: this.activePlayer.id, playerDisplay: this.activePlayer.displayName, option: newCount });
+    this.activeAnswer = newCount;
+  }
+
+  onAnswer(answer: string | number) {
     this.playerService.onPlayerAnswer({ playerId: this.activePlayer.id, playerDisplay: this.activePlayer.displayName, option: answer });
-    this.activeAnswer = answer;
+    this.activeAnswer = answer.toString();
   }
 }

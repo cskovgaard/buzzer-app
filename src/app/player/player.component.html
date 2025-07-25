@@ -15,12 +15,12 @@
     </button>
   </div>
 
-  <div *ngIf="isPlayerJoined && !isRoundOptionsActive" class="container">
+  <div *ngIf="isPlayerJoined && activeRound === 'regular'" class="container">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
     <button class="buzzer" (click)="onBuzz()">Buzz</button>
   </div>
 
-  <div *ngIf="isPlayerJoined && isRoundOptionsActive" class="container">
+  <div *ngIf="isPlayerJoined && activeRound === 'options'" class="container">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
 
     <div class="options">
@@ -36,4 +36,15 @@
     </div>
   </div>
 
+  <div *ngIf="isPlayerJoined && activeRound === 'count'" class="container count">
+    <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+
+    <div class="count">
+      <span>Count the Rosalinas</span>
+      <div class="counter">{{ activeAnswer || 0 }}</div>
+      <button class="increase-counter" (click)="!areAnswersLocked && onIncreaseCounter()" [class.locked]="areAnswersLocked">+1</button>
+    </div>
+  </div>
+
 </div>
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from "ngx-socket-io";
 
-import { Answer, Player, PlayerEvents } from 'src/models/player';
+import { ActiveRound, Answer, Player, PlayerEvents } from 'src/models/player';
 import { PlayerService } from 'src/utils/player-service';
 
 @Component({
@@ -14,12 +14,14 @@ export class HostComponent implements OnInit {
   activeBuzzes: Player[] = [];
   noOfActivePlayers = 0;
 
-  isOptionsRoundActive = false;
+  activeRound: ActiveRound;
   activeAnswers: Answer[] = [];
 
   firstBuzzerSoundPlayed = false;
 
-  constructor(private playerService: PlayerService, private socket: Socket) {}
+  constructor(private playerService: PlayerService, private socket: Socket) {
+    this.activeRound = 'regular';
+  }
 
   ngOnInit() {
     this.players = this.playerService.getPlayers();
@@ -66,9 +68,9 @@ export class HostComponent implements OnInit {
     }
   }
 
-  onSetOptionsRoundActive(isActive: boolean) {
-    this.playerService.setOptionsRoundActive(isActive);
-    this.isOptionsRoundActive = isActive;
+  onSetActiveRound(round: ActiveRound, options?: string[]) {
+    this.playerService.setActiveRound(round, options);
+    this.activeRound = round;
   }
 
   onResetAnswers() {

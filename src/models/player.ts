@@ -1,6 +1,6 @@
 export interface Player {
+  id: string;
   displayName?: string;
-  id?: string;
   buzzerSound?: string;
   points?: number;
 }
@@ -8,8 +8,10 @@ export interface Player {
 export interface Answer {
   playerDisplay?: string;
   playerId?: string;
-  option?: string;
+  option?: string | number;
 }
+
+export type ActiveRound = 'regular' | 'options' | 'count';
 
 export enum PlayerEvents {
   Join = 'join',
@@ -21,5 +23,5 @@ export enum PlayerEvents {
   ActiveAnswers = 'active-answers',
   ResetActiveAnswers = 'reset-active-answers',
   LockActiveAnswers = 'lock-active-answers',
-  OptionsRoundActive = 'options-round-active'
+  SetActiveRound = 'set-active-round',
 }

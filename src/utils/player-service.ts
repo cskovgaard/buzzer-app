@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 
-import { Answer, Player, PlayerEvents } from "../models/player";
+import { ActiveRound, Answer, Player, PlayerEvents } from "../models/player";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,10 @@ export class PlayerService {
   players: Player[] = [
     { displayName: `Brol'Danyar`, id: 'martin', buzzerSound: 'martin.wav', points: 0 },
     { displayName: 'Brorames', id: 'joel', buzzerSound: 'joel.wav', points: 0 },
-    { displayName: 'Brond Walker', id: 'niklas', buzzerSound: 'niklas.mp3', points: 0 },
+    // { displayName: 'Brond Walker', id: 'niklas', buzzerSound: 'niklas.mp3', points: 0 },
     { displayName: 'Broco Venàtor', id: 'mikkel', buzzerSound: 'mikkel.mp3', points: 0 },
     { displayName: 'BroHunter', id: 'kristian', buzzerSound: 'kristian.mp3', points: 0 },
-    // { displayName: 'Brouczki', id: 'kauczki', buzzerSound: 'kauczki.mp3', points: 0 },
+    { displayName: 'Brouczki', id: 'kauczki', buzzerSound: 'kauczki.mp3', points: 0 },
   ];
 
   getPlayers(): Player[] {
@@ -52,8 +52,8 @@ export class PlayerService {
     this.socket.emit(PlayerEvents.LockActiveAnswers);
   }
 
-  setOptionsRoundActive(isActive: boolean) {
-    this.socket.emit(PlayerEvents.OptionsRoundActive, isActive);
+  setActiveRound(round: ActiveRound, options?: string[]) {
+    this.socket.emit(PlayerEvents.SetActiveRound, { round, options })
   }
 
 }

@@ -1,6 +1,6 @@
 const _app_folder = 'dist/buzzer-app/';
 // Keep in sync with "app.module.ts"
-const _ip = '192.168.86.91';
+const _ip = '192.168.86.30';
 const _port = 3000;
 
 const express = require("express");
@@ -20,7 +20,7 @@ app.all('*', function (_, res) {
 const data = {
   users: new Set(),
   buzzes: new Set(),
-  answers: new Set()
+  answers: new Set(),
 };
 
 io.on('connection', (socket) => {
@@ -56,8 +56,8 @@ io.on('connection', (socket) => {
     io.emit('reset-active-answers');
   });
 
-  socket.on('options-round-active', (isActive) => {
-    io.emit('options-round-active', isActive);
+  socket.on('set-active-round', (options) => {
+    io.emit('set-active-round', options);
   });
 
   socket.on('lock-active-answers', () => {
