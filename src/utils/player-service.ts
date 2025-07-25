@@ -11,7 +11,7 @@ export class PlayerService {
   constructor(private socket: Socket) {}
 
   players: Player[] = [
-    { displayName: `Brol'Danyar`, id: 'martin', buzzerSound: 'martin.wav', points: 0 },
+    { displayName: `Brol'Danyar`, id: 'martin', buzzerSound: 'martin.mp3', points: 0 },
     { displayName: 'Brorames', id: 'joel', buzzerSound: 'joel.wav', points: 0 },
     // { displayName: 'Brond Walker', id: 'niklas', buzzerSound: 'niklas.mp3', points: 0 },
     { displayName: 'Broco Venàtor', id: 'mikkel', buzzerSound: 'mikkel.mp3', points: 0 },
@@ -36,7 +36,10 @@ export class PlayerService {
   }
 
   playBuzzerSound(player: Player) {
+    const silence = new Audio(`/assets/buzzers/silence.mp3`);
     const audio = new Audio(`/assets/buzzers/${player.buzzerSound}`);
+
+    silence.play();
     audio.play();
   }
 

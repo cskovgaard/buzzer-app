@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 import { ActiveRound, Player, PlayerEvents } from '../../models/player';
@@ -10,6 +10,8 @@ import { PlayerService } from '../../utils/player-service';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
+  @ViewChild('userInputRef') userInputRef!: ElementRef<HTMLInputElement>;
+
   players: Player[] = [];
   activePlayer: Player = { id: "" };
   isPlayerJoined: boolean = false;
@@ -37,7 +39,8 @@ export class PlayerComponent implements OnInit {
 
     this.socket.on(PlayerEvents.ResetActiveAnswers, () => {
       this.areAnswersLocked = false;
-      this.activeAnswer = '';    
+      this.activeAnswer = '';
+      this.resetInputField();
     });
 
     this.socket.on(PlayerEvents.LockActiveAnswers, () => {
@@ -68,5 +71,14 @@ export class PlayerComponent implements OnInit {
   onAnswer(answer: string | number) {
     this.playerService.onPlayerAnswer({ playerId: this.activePlayer.id, playerDisplay: this.activePlayer.displayName, option: answer });
     this.activeAnswer = answer.toString();
+  }
+
+  onHandleInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value ?? "";
+    this.onAnswer(value);
+  }
+
+  resetInputField() {
+    this.userInputRef.nativeElement.value = "";
   }
 }

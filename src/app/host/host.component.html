@@ -11,7 +11,7 @@
       <button (click)="onClearBuzzes()">Clear buzzes</button>
     </div>
 
-    <div class="player-controller" *ngIf="activeRound === 'options' || activeRound === 'count'">
+    <div class="player-controller" *ngIf="activeRound === 'options' || activeRound === 'count' || activeRound === 'input'">
       <div *ngFor="let answer of activeAnswers" class="player-line">
         {{ answer.playerDisplay }}: {{ answer.option }}
       </div>
@@ -37,6 +37,11 @@
     <div class="two-button-row">
       <button [disabled]="activeRound === 'options'" (click)="onSetActiveRound('options', ['A', 'B', 'C', 'D'])">START Quiz</button>
       <button [disabled]="activeRound !== 'options'" (click)="onSetActiveRound('regular')">END Quiz</button>
+    </div>
+
+    <div class="two-button-row">
+      <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input')">START Input</button>
+      <button [disabled]="activeRound !== 'input'" (click)="onSetActiveRound('regular')">END Input</button>
     </div>
 
     <div class="two-button-row">

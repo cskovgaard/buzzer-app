@@ -11,7 +11,7 @@ export interface Answer {
   option?: string | number;
 }
 
-export type ActiveRound = 'regular' | 'options' | 'count';
+export type ActiveRound = 'regular' | 'options' | 'count' | 'input';
 
 export enum PlayerEvents {
   Join = 'join',

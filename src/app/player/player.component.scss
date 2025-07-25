@@ -8,6 +8,28 @@
   margin: 0 auto;
   max-width: 100vw;
 
+  .input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 48px;
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid $disabled-text-color;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=text]:focus {
+      outline: none;
+    }
+  }
+
   .count {
     display: flex;
     flex-direction: column;
@@ -73,7 +95,7 @@
     margin-top: 32px;
     margin-bottom: 96px;
 
-    &.count {
+    &.column {
       flex-flow: column;
     }
 

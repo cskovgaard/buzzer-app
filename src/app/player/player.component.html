@@ -36,7 +36,15 @@
     </div>
   </div>
 
-  <div *ngIf="isPlayerJoined && activeRound === 'count'" class="container count">
+  <div *ngIf="isPlayerJoined && activeRound === 'input'" class="container column">
+    <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+
+    <div class="input">
+      <input #userInputRef type="text" id="user-input" name="userinput" placeholder="What say you?" [disabled]="areAnswersLocked" (input)="onHandleInput($event)">
+    </div>
+  </div>
+
+  <div *ngIf="isPlayerJoined && activeRound === 'count'" class="container column">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
 
     <div class="count">
