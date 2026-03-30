@@ -39,8 +39,11 @@ export class PlayerService {
     const silence = new Audio(`/assets/buzzers/silence.mp3`);
     const audio = new Audio(`/assets/buzzers/${player.buzzerSound}`);
 
+    silence.addEventListener('ended', () => {
+      audio.play();
+    });
+
     silence.play();
-    audio.play();
   }
 
   onPlayerAnswer(answer: Answer) {

@@ -1,6 +1,6 @@
 const _app_folder = 'dist/buzzer-app/';
 // Keep in sync with "app.module.ts"
-const _ip = '192.168.86.30';
+const _ip = '192.168.1.90';
 const _port = 3000;
 
 const express = require("express");

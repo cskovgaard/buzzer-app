@@ -34,20 +34,20 @@
       </div>
     </div>
 
-    <div class="two-button-row">
+    <!-- <div class="two-button-row">
       <button [disabled]="activeRound === 'options'" (click)="onSetActiveRound('options', ['A', 'B', 'C', 'D'])">START Quiz</button>
       <button [disabled]="activeRound !== 'options'" (click)="onSetActiveRound('regular')">END Quiz</button>
-    </div>
+    </div> -->
 
     <div class="two-button-row">
       <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input')">START Input</button>
       <button [disabled]="activeRound !== 'input'" (click)="onSetActiveRound('regular')">END Input</button>
     </div>
 
-    <div class="two-button-row">
+    <!-- <div class="two-button-row">
       <button [disabled]="activeRound === 'count'" (click)="onSetActiveRound('count')">START Count</button>
       <button [disabled]="activeRound !== 'count'" (click)="onSetActiveRound('regular')">END Count</button>
-    </div>
+    </div> -->
 
   </div>
 
