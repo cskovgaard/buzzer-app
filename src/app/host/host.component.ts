@@ -80,4 +80,32 @@ export class HostComponent implements OnInit {
   onLockAnswers() {
     this.playerService.lockActiveAnswers();
   }
+
+  isFirstBuzz(buzz: Player): boolean {
+    return this.activeBuzzes && this.activeBuzzes.length > 0 && this.activeBuzzes[0].id === buzz.id;
+  }
+
+  getTimeDifference(buzz: Player): string {
+    if (!this.activeBuzzes || this.activeBuzzes.length === 0) {
+      return '';
+    }
+
+    const firstBuzz = this.activeBuzzes[0];
+    if (buzz.buzzedAt === undefined || firstBuzz.buzzedAt === undefined) {
+      return '';
+    }
+
+    const differenceMs = buzz.buzzedAt - firstBuzz.buzzedAt;
+
+    if (differenceMs <= 0) {
+      return '';
+    }
+
+    // Format as seconds if >= 1s, otherwise milliseconds
+    if (differenceMs >= 1000) {
+      return `+${(differenceMs / 1000).toFixed(1)}s`;
+    } else {
+      return `+${differenceMs}ms`;
+    }
+  }
 }

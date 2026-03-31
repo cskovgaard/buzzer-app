@@ -1,9 +1,3 @@
-# TODO:
-- Time diff mellem svarene
-- Endnu længere delay inden lyd
-- Stay awake functionalitet
-
-
 # Buzzer App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.

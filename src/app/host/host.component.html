@@ -6,7 +6,7 @@
 
     <div class="player-controller" *ngIf="activeRound === 'regular'">
       <div *ngFor="let buzz of activeBuzzes" class="player-line">
-        {{ buzz.displayName }}
+        {{ buzz.displayName }}<span class="time-difference" *ngIf="!isFirstBuzz(buzz)"> ({{ getTimeDifference(buzz) }}) </span>
       </div>
       <button (click)="onClearBuzzes()">Clear buzzes</button>
     </div>

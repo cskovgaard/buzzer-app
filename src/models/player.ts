@@ -3,6 +3,7 @@ export interface Player {
   displayName?: string;
   buzzerSound?: string;
   points?: number;
+  buzzedAt?: number;
 }
 
 export interface Answer {

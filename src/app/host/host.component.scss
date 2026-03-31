@@ -35,6 +35,10 @@
 
     .player-line {
       margin: 4px;
+
+      .time-difference {
+        color: darken($primary-text-color, 20%);
+      }
     }
 
     .points-container {
