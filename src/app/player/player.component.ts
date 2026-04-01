@@ -22,6 +22,7 @@ export class PlayerComponent implements OnInit {
   activeAnswer: string = '';
 
   options: string[] = [];
+  lockedOptions: { playerId: string, option: string | number }[] = [];
 
   constructor(private playerService: PlayerService, private socket: Socket) {
     this.activeRound = 'regular';
@@ -35,16 +36,22 @@ export class PlayerComponent implements OnInit {
       this.options = data.options;
       this.areAnswersLocked = false;
       this.activeAnswer = '';
+      this.lockedOptions = [];
     })
 
     this.socket.on(PlayerEvents.ResetActiveAnswers, () => {
       this.areAnswersLocked = false;
       this.activeAnswer = '';
+      this.lockedOptions = [];
       this.resetInputField();
     });
 
     this.socket.on(PlayerEvents.LockActiveAnswers, () => {
       this.areAnswersLocked = true;
+    });
+
+    this.socket.on(PlayerEvents.LockedOptions, (lockedOptions: { playerId: string, option: string | number }[]) => {
+      this.lockedOptions = lockedOptions;
     });
   }
 
@@ -80,5 +87,22 @@ export class PlayerComponent implements OnInit {
 
   resetInputField() {
     this.userInputRef.nativeElement.value = "";
+  }
+
+  isOptionLocked(option: string | number): boolean {
+    return this.lockedOptions.some(locked => locked.option === option);
+  }
+
+  isOptionSelectedByCurrentPlayer(): boolean {
+    return this.activeRound === 'exclusive-options' && this.activeAnswer !== '';
+  }
+
+  getOptionDisabledState(option: string | number): boolean {
+    // Option is disabled if it's locked by another player
+    const lockedByOther = this.lockedOptions.some(
+      locked => locked.option === option && locked.playerId !== this.activePlayer.id
+    );
+    
+    return lockedByOther || this.areAnswersLocked;
   }
 }

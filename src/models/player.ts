@@ -12,7 +12,7 @@ export interface Answer {
   option?: string | number;
 }
 
-export type ActiveRound = 'regular' | 'options' | 'count' | 'input';
+export type ActiveRound = 'regular' | 'options' | 'exclusive-options' | 'count' | 'input';
 
 export enum PlayerEvents {
   Join = 'join',
@@ -25,4 +25,5 @@ export enum PlayerEvents {
   ResetActiveAnswers = 'reset-active-answers',
   LockActiveAnswers = 'lock-active-answers',
   SetActiveRound = 'set-active-round',
+  LockedOptions = 'locked-options',
 }

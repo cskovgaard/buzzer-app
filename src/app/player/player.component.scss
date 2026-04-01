@@ -156,6 +156,17 @@
       width: 100%;
     }
 
+    .selection-status {
+      width: 100%;
+      text-align: center;
+      margin-top: 24px;
+      padding: 12px;
+      background-color: rgba($accent-color, 0.2);
+      border-radius: 8px;
+      color: $accent-color;
+      font-weight: 600;
+    }
+
     .option-button {
       display: flex;
       align-items: center;
@@ -179,6 +190,11 @@
 
       &.not-selected {
         opacity: 0.3;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        background-color: #aaa;
       }
     }
   }

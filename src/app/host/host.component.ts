@@ -16,6 +16,7 @@ export class HostComponent implements OnInit {
 
   activeRound: ActiveRound;
   activeAnswers: Answer[] = [];
+  lockedOptions: { playerId: string, option: string | number }[] = [];
 
   firstBuzzerSoundPlayed = false;
 
@@ -45,6 +46,10 @@ export class HostComponent implements OnInit {
         return idx === self.findIndex((other) => other.playerId === answer.playerId);
       });
 
+    });
+
+    this.socket.on(PlayerEvents.LockedOptions, (lockedOptions: { playerId: string, option: string | number }[]) => {
+      this.lockedOptions = lockedOptions;
     });
   }
 

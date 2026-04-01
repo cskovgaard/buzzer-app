@@ -11,7 +11,7 @@
       <button (click)="onClearBuzzes()">Clear buzzes</button>
     </div>
 
-    <div class="player-controller" *ngIf="activeRound === 'options' || activeRound === 'count' || activeRound === 'input'">
+    <div class="player-controller" *ngIf="activeRound === 'options' || activeRound === 'exclusive-options' || activeRound === 'count' || activeRound === 'input'">
       <div *ngFor="let answer of activeAnswers" class="player-line">
         {{ answer.playerDisplay }}: {{ answer.option }}
       </div>
@@ -39,9 +39,14 @@
       <button [disabled]="activeRound !== 'options'" (click)="onSetActiveRound('regular')">END Quiz</button>
     </div> -->
 
-    <div class="two-button-row">
+    <!-- <div class="two-button-row">
       <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input')">START Input</button>
       <button [disabled]="activeRound !== 'input'" (click)="onSetActiveRound('regular')">END Input</button>
+    </div> -->
+
+    <div class="two-button-row">
+      <button [disabled]="activeRound === 'exclusive-options'" (click)="onSetActiveRound('exclusive-options', ['Dragon Ball', 'World of Warcraft', 'Hearthstone', 'Pokémon', 'Biblen', 'Dungeons and Dragons', 'Harry Potter'])">START Exclusive Options</button>
+      <button [disabled]="activeRound !== 'exclusive-options'" (click)="onSetActiveRound('regular')">END Exclusive Options</button>
     </div>
 
     <!-- <div class="two-button-row">

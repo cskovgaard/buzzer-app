@@ -36,6 +36,26 @@
     </div>
   </div>
 
+  <div *ngIf="isPlayerJoined && activeRound === 'exclusive-options'" class="container">
+    <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
+
+    <div class="options">
+      <div
+        *ngFor="let option of options"
+        (click)="!getOptionDisabledState(option) && !isOptionSelectedByCurrentPlayer() && onAnswer(option)"
+        class="option-button"
+        [class.selected]="activeAnswer === option"
+        [class.disabled]="getOptionDisabledState(option)"
+        [class.not-selected]="activeAnswer !== option"
+      >
+        {{option}}
+      </div>
+    </div>
+    <div class="selection-status" *ngIf="activeAnswer">
+      <span>Locked in: <strong>{{ activeAnswer }}</strong></span>
+    </div>
+  </div>
+
   <div *ngIf="isPlayerJoined && activeRound === 'input'" class="container column">
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
 
