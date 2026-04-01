@@ -26,6 +26,7 @@ export class HostComponent implements OnInit {
 
   ngOnInit() {
     this.players = this.playerService.getPlayers();
+    this.loadPointsFromLocalStorage();
 
     this.socket.on(PlayerEvents.ActiveBuzzes, (players: Player[]) => {
       this.activeBuzzes = players.filter((player, idx, self) => {
@@ -70,6 +71,32 @@ export class HostComponent implements OnInit {
 
     if (this.players[playerIdx]) {
       this.players[playerIdx].points = (this.players[playerIdx].points ?? 0) + value;
+      this.savePointsToLocalStorage();
+    }
+  }
+
+  savePointsToLocalStorage() {
+    const pointsData = this.players.reduce((acc, player) => {
+      acc[player.id] = player.points ?? 0;
+      return acc;
+    }, {} as { [key: string]: number });
+
+    localStorage.setItem('buzzerPoints', JSON.stringify(pointsData));
+  }
+
+  loadPointsFromLocalStorage() {
+    const savedPoints = localStorage.getItem('buzzerPoints');
+    if (savedPoints) {
+      try {
+        const pointsData = JSON.parse(savedPoints);
+        this.players.forEach(player => {
+          if (pointsData[player.id] !== undefined) {
+            player.points = pointsData[player.id];
+          }
+        });
+      } catch (e) {
+        console.error('Error loading points from localStorage:', e);
+      }
     }
   }
 
