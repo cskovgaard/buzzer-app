@@ -35,11 +35,6 @@
     </div>
 
     <!-- <div class="two-button-row">
-      <button [disabled]="activeRound === 'options'" (click)="onSetActiveRound('options', ['A', 'B', 'C', 'D'])">START Quiz</button>
-      <button [disabled]="activeRound !== 'options'" (click)="onSetActiveRound('regular')">END Quiz</button>
-    </div> -->
-
-    <!-- <div class="two-button-row">
       <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input')">START Input</button>
       <button [disabled]="activeRound !== 'input'" (click)="onSetActiveRound('regular')">END Input</button>
     </div> -->
@@ -47,6 +42,11 @@
     <div class="two-button-row">
       <button [disabled]="activeRound === 'exclusive-options'" (click)="onSetActiveRound('exclusive-options', ['Dragon Ball', 'World of Warcraft', 'Hearthstone', 'Pokémon', 'Biblen', 'Dungeons and Dragons', 'Harry Potter'])">START Exclusive Options</button>
       <button [disabled]="activeRound !== 'exclusive-options'" (click)="onSetActiveRound('regular')">END Exclusive Options</button>
+    </div>
+
+    <div class="two-button-row">
+      <button [disabled]="activeRound === 'options'" (click)="onSetActiveRound('options', ['A', 'B', 'C', 'D'])">START Options</button>
+      <button [disabled]="activeRound !== 'options'" (click)="onSetActiveRound('regular')">END Options</button>
     </div>
 
     <!-- <div class="two-button-row">

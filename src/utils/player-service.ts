@@ -28,7 +28,7 @@ export class PlayerService {
   }
 
   onPlayerBuzzed(player: Player) {
-    this.socket.emit(PlayerEvents.Buzz, {...player, buzzedAt: Date.now()});
+    this.socket.emit(PlayerEvents.Buzz, player);
   }
 
   clearBuzzes() {

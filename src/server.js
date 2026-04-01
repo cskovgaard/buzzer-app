@@ -1,6 +1,6 @@
 const _app_folder = 'dist/buzzer-app/';
 // Keep in sync with "app.module.ts"
-const _ip = '192.168.1.90';
+const _ip = '192.168.86.32';
 const _port = 3000;
 
 const express = require("express");
@@ -21,6 +21,8 @@ const data = {
   users: new Set(),
   buzzes: new Set(),
   answers: new Set(),
+  lockedOptions: new Set(),
+  activeRoundType: 'regular',
 };
 
 io.on('connection', (socket) => {
@@ -32,7 +34,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('buzz', (user) => {
-    data.buzzes.add(user);
+    const userWithTimestamp = { ...user, buzzedAt: Date.now() };
+    data.buzzes.add(userWithTimestamp);
     io.emit('active-buzzes', [...data.buzzes]);
 
     console.log(`${user.displayName} :: buzz`);
@@ -45,6 +48,16 @@ io.on('connection', (socket) => {
 
   socket.on('answer', (answer) => {
     data.answers.add(answer);
+    
+    // If in exclusive-options mode, track the locked option for this player
+    if (data.activeRoundType === 'exclusive-options') {
+      data.lockedOptions.add({
+        playerId: answer.playerId,
+        option: answer.option
+      });
+      io.emit('locked-options', [...data.lockedOptions]);
+    }
+    
     io.emit('active-answers', [...data.answers]);
 
     console.log(`${answer.playerDisplay} :: ${answer.option}`);
@@ -52,11 +65,17 @@ io.on('connection', (socket) => {
 
   socket.on('reset-active-answers', () => {
     data.answers = new Set();
+    data.lockedOptions = new Set();
     io.emit('active-answers', [...data.answers]);
+    io.emit('locked-options', [...data.lockedOptions]);
     io.emit('reset-active-answers');
   });
 
   socket.on('set-active-round', (options) => {
+    data.activeRoundType = options.round;
+    if (options.round !== 'exclusive-options') {
+      data.lockedOptions = new Set();
+    }
     io.emit('set-active-round', options);
   });
 
