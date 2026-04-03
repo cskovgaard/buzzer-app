@@ -13,11 +13,18 @@
 
     <div class="player-controller" *ngIf="activeRound === 'options' || activeRound === 'exclusive-options' || activeRound === 'count' || activeRound === 'input'">
       <div *ngFor="let answer of activeAnswers" class="player-line">
-        {{ answer.playerDisplay }}: {{ answer.option }}
+        <span>{{ answer.playerDisplay }}: {{ answer.option }}</span>
+        <button 
+          *ngIf="individualLocking" 
+          (click)="togglePlayerLock(answer.playerId)" 
+          class="lock-button"
+          [class.locked]="isPlayerLocked(answer.playerId)">
+          {{ isPlayerLocked(answer.playerId) ? 'Unlock answer' : 'Lock answer' }}
+        </button>
       </div>
 
       <div class="two-button-row">
-        <button class="handle-answers-button" (click)="onLockAnswers()">Lock answers</button>
+        <button class="handle-answers-button" (click)="onToggleAllPlayerLocks()">{{ areAllPlayersLocked() ? 'Unlock answers' : 'Lock answers' }}</button>
         <button class="handle-answers-button" (click)="onResetAnswers()">Reset answers</button>
       </div>
 
@@ -34,10 +41,10 @@
       </div>
     </div>
 
-    <!-- <div class="two-button-row">
-      <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input')">START Input</button>
+    <div class="two-button-row">
+      <button [disabled]="activeRound === 'input'" (click)="onSetActiveRound('input', undefined, true)">START Input</button>
       <button [disabled]="activeRound !== 'input'" (click)="onSetActiveRound('regular')">END Input</button>
-    </div> -->
+    </div>
 
     <div class="two-button-row">
       <button [disabled]="activeRound === 'exclusive-options'" (click)="onSetActiveRound('exclusive-options', ['Dragon Ball', 'World of Warcraft', 'Hearthstone', 'Pokémon', 'Biblen', 'Dungeons and Dragons', 'Harry Potter'])">START Exclusive Options</button>

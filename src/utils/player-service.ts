@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 
-import { ActiveRound, Answer, Player, PlayerEvents } from "../models/player";
+import { ActiveRound, Answer, Player, PlayerEvents, RoundOptions } from "../models/player";
 
 @Injectable({
   providedIn: 'root'
@@ -54,12 +54,25 @@ export class PlayerService {
     this.socket.emit(PlayerEvents.ResetActiveAnswers);
   }
 
-  lockActiveAnswers() {
-    this.socket.emit(PlayerEvents.LockActiveAnswers);
+  setLockedPlayers(playerIds: string[]) {
+    this.socket.emit(PlayerEvents.SetLockedPlayers, playerIds);
   }
 
-  setActiveRound(round: ActiveRound, options?: string[]) {
-    this.socket.emit(PlayerEvents.SetActiveRound, { round, options })
+  lockPlayer(playerId: string) {
+    this.socket.emit(PlayerEvents.LockPlayer, playerId);
+  }
+
+  unlockPlayer(playerId: string) {
+    this.socket.emit(PlayerEvents.UnlockPlayer, playerId);
+  }
+
+  setActiveRound( round: ActiveRound, options?: string[], individualLocking?: boolean) {
+    const roundOptions: RoundOptions = { 
+      round, 
+      options,
+      individualLocking: individualLocking || false
+    };
+    this.socket.emit(PlayerEvents.SetActiveRound, roundOptions)
   }
 
 }

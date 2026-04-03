@@ -26,10 +26,10 @@
     <div class="options">
       <div
         *ngFor="let option of options"
-        (click)="!areAnswersLocked && onAnswer(option)"
+        (click)="!isMyAnswerLocked() && onAnswer(option)"
         class="option-button"
         [class.selected]="activeAnswer === option"
-        [class.not-selected]="activeAnswer !== option || areAnswersLocked"
+        [class.not-selected]="activeAnswer !== option || isMyAnswerLocked()"
       >
         {{option}}
       </div>
@@ -60,7 +60,7 @@
     <div class="player-info">Logged in as: <span>{{ activePlayer.displayName }}</span></div>
 
     <div class="input">
-      <input #userInputRef type="text" id="user-input" name="userinput" placeholder="What say you?" [disabled]="areAnswersLocked" (input)="onHandleInput($event)">
+      <input #userInputRef type="text" id="user-input" name="userinput" placeholder="What say you?" [disabled]="isMyAnswerLocked()" (input)="onHandleInput($event)">
     </div>
   </div>
 
@@ -70,7 +70,7 @@
     <div class="count">
       <span>Count the Rosalinas</span>
       <div class="counter">{{ activeAnswer || 0 }}</div>
-      <button class="increase-counter" (click)="!areAnswersLocked && onIncreaseCounter()" [class.locked]="areAnswersLocked">+1</button>
+      <button class="increase-counter" (click)="!isMyAnswerLocked() && onIncreaseCounter()" [class.locked]="isMyAnswerLocked()">+1</button>
     </div>
   </div>
 

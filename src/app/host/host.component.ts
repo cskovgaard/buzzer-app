@@ -16,7 +16,8 @@ export class HostComponent implements OnInit {
 
   activeRound: ActiveRound;
   activeAnswers: Answer[] = [];
-  lockedOptions: { playerId: string, option: string | number }[] = [];
+  lockedPlayers: string[] = [];
+  individualLocking: boolean = false;
 
   firstBuzzerSoundPlayed = false;
 
@@ -49,8 +50,8 @@ export class HostComponent implements OnInit {
 
     });
 
-    this.socket.on(PlayerEvents.LockedOptions, (lockedOptions: { playerId: string, option: string | number }[]) => {
-      this.lockedOptions = lockedOptions;
+    this.socket.on(PlayerEvents.LockedPlayers, (lockedPlayers: string[]) => {
+      this.lockedPlayers = lockedPlayers;
     });
   }
 
@@ -100,17 +101,49 @@ export class HostComponent implements OnInit {
     }
   }
 
-  onSetActiveRound(round: ActiveRound, options?: string[]) {
-    this.playerService.setActiveRound(round, options);
+  onSetActiveRound(round: ActiveRound, options?: string[], individualLocking?: boolean) {
+    this.playerService.setActiveRound(round, options, individualLocking);
     this.activeRound = round;
+    this.individualLocking = individualLocking || false;
   }
 
   onResetAnswers() {
+    this.unlockAllPlayers();
     this.playerService.resetActiveAnswers();
   }
 
-  onLockAnswers() {
-    this.playerService.lockActiveAnswers();
+  onToggleAllPlayerLocks() {
+    if (this.areAllPlayersLocked()) {
+      this.unlockAllPlayers();
+    } else if (this.activeAnswers.length > 0) {
+      const allPlayerIds = this.players.map(player => player.id);
+      this.playerService.setLockedPlayers(allPlayerIds);
+    }
+  }
+
+  unlockAllPlayers() {
+    this.playerService.setLockedPlayers([]);
+  }
+
+  togglePlayerLock(playerId: string) {
+    if (this.lockedPlayers.includes(playerId)) {
+      this.playerService.unlockPlayer(playerId);
+    } else {
+      this.playerService.lockPlayer(playerId);
+    }
+  }
+
+  areAllPlayersLocked(): boolean {
+    if (this.activeAnswers.length === 0) {
+      return false;
+    }
+    return this.activeAnswers.every(answer => 
+      answer.playerId && this.lockedPlayers.includes(answer.playerId)
+    );
+  }
+
+  isPlayerLocked(playerId: string): boolean {
+    return this.lockedPlayers.includes(playerId);
   }
 
   isFirstBuzz(buzz: Player): boolean {

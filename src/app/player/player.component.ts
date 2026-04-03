@@ -18,7 +18,7 @@ export class PlayerComponent implements OnInit {
 
   activeRound: ActiveRound;
 
-  areAnswersLocked: boolean = false;
+  lockedPlayers: string[] = [];
   activeAnswer: string = '';
 
   options: string[] = [];
@@ -34,20 +34,19 @@ export class PlayerComponent implements OnInit {
     this.socket.on(PlayerEvents.SetActiveRound, (data: { round: ActiveRound, options: string[] }) => {
       this.activeRound = data.round;
       this.options = data.options;
-      this.areAnswersLocked = false;
       this.activeAnswer = '';
       this.lockedOptions = [];
+      this.lockedPlayers = [];
     })
 
     this.socket.on(PlayerEvents.ResetActiveAnswers, () => {
-      this.areAnswersLocked = false;
       this.activeAnswer = '';
       this.lockedOptions = [];
       this.resetInputField();
     });
 
-    this.socket.on(PlayerEvents.LockActiveAnswers, () => {
-      this.areAnswersLocked = true;
+    this.socket.on(PlayerEvents.LockedPlayers, (lockedPlayers: string[]) => {
+      this.lockedPlayers = lockedPlayers;
     });
 
     this.socket.on(PlayerEvents.LockedOptions, (lockedOptions: { playerId: string, option: string | number }[]) => {
@@ -97,12 +96,16 @@ export class PlayerComponent implements OnInit {
     return this.activeRound === 'exclusive-options' && this.activeAnswer !== '';
   }
 
+  isMyAnswerLocked(): boolean {
+    return this.lockedPlayers.includes(this.activePlayer.id);
+  }
+
   getOptionDisabledState(option: string | number): boolean {
-    // Option is disabled if it's locked by another player
+    // Option is disabled if it's locked by another player or if my answer is locked
     const lockedByOther = this.lockedOptions.some(
       locked => locked.option === option && locked.playerId !== this.activePlayer.id
     );
     
-    return lockedByOther || this.areAnswersLocked;
+    return lockedByOther || this.isMyAnswerLocked();
   }
 }

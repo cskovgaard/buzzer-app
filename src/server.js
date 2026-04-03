@@ -22,7 +22,9 @@ const data = {
   buzzes: new Set(),
   answers: new Set(),
   lockedOptions: new Set(),
+  lockedPlayers: new Set(),
   activeRoundType: 'regular',
+  individualLocking: false,
 };
 
 io.on('connection', (socket) => {
@@ -66,21 +68,40 @@ io.on('connection', (socket) => {
   socket.on('reset-active-answers', () => {
     data.answers = new Set();
     data.lockedOptions = new Set();
+    data.lockedPlayers = new Set();
     io.emit('active-answers', [...data.answers]);
     io.emit('locked-options', [...data.lockedOptions]);
+    io.emit('locked-players', [...data.lockedPlayers]);
     io.emit('reset-active-answers');
   });
 
   socket.on('set-active-round', (options) => {
     data.activeRoundType = options.round;
+    data.individualLocking = options.individualLocking || false;
     if (options.round !== 'exclusive-options') {
       data.lockedOptions = new Set();
     }
+
+    data.lockedPlayers = new Set();
+    data.answers = new Set();
     io.emit('set-active-round', options);
+    io.emit('active-answers', [...data.answers]);
+    io.emit('locked-players', [...data.lockedPlayers]);
   });
 
-  socket.on('lock-active-answers', () => {
-    io.emit('lock-active-answers');
+  socket.on('lock-player', (playerId) => {
+    data.lockedPlayers.add(playerId);
+    io.emit('locked-players', [...data.lockedPlayers]);
+  });
+
+  socket.on('unlock-player', (playerId) => {
+    data.lockedPlayers.delete(playerId);
+    io.emit('locked-players', [...data.lockedPlayers]);
+  });
+
+  socket.on('set-locked-players', (lockedPlayerIds) => {
+    data.lockedPlayers = new Set(lockedPlayerIds);
+    io.emit('locked-players', [...data.lockedPlayers]);
   });
 
 });
